@@ -6,10 +6,9 @@
 	Requires the EPEL repository for RedHat/CentOS
 
 ## Role Variables
-	```
 	data_dir: /data
 	apps_dir: /apps
-	```
+
 
 ## Dependencies
 	None
