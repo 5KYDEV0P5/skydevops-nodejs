@@ -1,2 +1,11 @@
 ---
 # vars file for nodejs
+# Default Variables
+nodejs_rhel_rpm_dir: "pub"
+
+# Set the version of Node.js to install ("6.x", "8.x", "9.x").
+nodejs_version: "8.x"
+npm_install_path: "/apps/nodejs/npm"
+npm_shared_path: "/usr/local/lib/npm"
+npm_profile_sh: "/etc/profile.d/nodejs.sh"
+# npm_user: "skydevops"
