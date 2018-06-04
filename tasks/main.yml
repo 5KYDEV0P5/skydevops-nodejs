@@ -1,2 +1,46 @@
 ---
 # tasks file for nodejs
+# Setup/install tasks.
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+  # create USER
+- name: Define nodejs_install_npm_user
+  set_fact:
+    nodejs_install_npm_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+  when: nodejs_install_npm_user is not defined
+
+# create directories
+- name: NPM Global Directory
+  file:
+    path: "{{ npm_install_path }}"
+    owner: "{{ nodejs_install_npm_user }}"
+    group: "{{ nodejs_install_npm_user }}"
+    state: directory
+
+# Source the Node PATH - RedHat
+- name: Sourcing NPM
+  template:
+    src: nodejs-RedHat.j2
+    dest: /etc/profile.d/nodejs.sh
+    mode: 0644
+  when: ansible_os_family == 'RedHat'
+
+# Source the Node PATH - Debian
+- name: Sourcing NPM
+  template:
+    src: nodejs-Debian.j2
+    dest: /etc/profile.d/nodejs.sh
+    mode: 0644
+  when: ansible_os_family == 'Debian'
+
+# Shared Symlink
+- name: Symlink NPM Install directory
+  file:
+    src: "{{ npm_install_path }}"
+    dest: "{{ npm_shared_path }}"
+    state: link
+    force: yes

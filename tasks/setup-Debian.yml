@@ -1,0 +1,18 @@
+---
+# Sourcing the profile
+- name: Source NPM profile
+  shell: . {{ npm_profile_sh }}
+
+# install required APT packages
+- name: Transport HTTPS package
+  apt:
+    name: apt-transport-https
+    state: present
+
+# APT nodesource GPG Key
+- name: Add Nodesource GPG Key
+  apt_key:
+    url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
+# APT Nodejs Repository
+- name: Add Nodesource Repository
+  

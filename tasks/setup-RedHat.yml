@@ -1,0 +1,24 @@
+---
+# Sourcing the profile
+- name: Source NPM profile
+  shell: source {{ npm_profile_sh }}
+
+# Install Using RPM
+- name: Node RPM Key
+  rpm_key:
+    key: https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
+    state: present
+
+# Add Nodejs REPO
+- name: Add Nodejs repository
+  yum:
+    name: "https://rpm.nodesource.com/{{ nodejs_rhel_rpm_dir }}/el/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/nodesource-release-el{{ ansible_distribution_major_version }}-1.noarch.rpm"
+    state: present
+
+# Ensure Nodejs is installed
+- name: Checking if Nodejs is installed
+  yum:
+    name: "nodejs-{{ nodejs_version[0] }}.*"
+    state: present
+    enablerepo: "nodesource"
+  
